@@ -21,3 +21,14 @@ jobs:
 
     - name: Run ETL script
       run: python3 open-meteo.py
+
+    - name: Build Docker image
+      run: docker build -t etl-app .
+
+    - name: Login to DockerHub
+      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+    - name: Push Docker image
+      run: |
+        docker tag etl-app yourdockerhubusername/etl-app:latest
+        docker push yourdockerhubusername/etl-app:latest
