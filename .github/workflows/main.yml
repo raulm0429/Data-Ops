@@ -1,0 +1,23 @@
+name: ETL CI/CD
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: pip3 install requests pandas flake8
+
+    - name: Run flake8 linting
+      run: flake8 open-meteo.py
+
+    - name: Run ETL script
+      run: python3 open-meteo.py
